@@ -237,21 +237,20 @@ ProfessionalRoute.route("/update/:id").put(
     let ub = null;
     let iu = null;
 
-    console.log("req.files", req.files);
-    if (req.files.uq) {
+    if (req?.files?.uq) {
       uq = "img/" + req.files.uq[0].filename;
     }
-    if (req.files.ub) {
+    if (req?.files?.ub) {
       ub = "img/" + req.files.ub[0].filename;
     }
     let array = [];
-    if (req.files.iu) {
+    if (req?.files?.iu) {
       for (let i = 0; i < req.files.iu.length; i++) {
         array.push("img/" + req.files.iu[i].filename);
       }
       iu = array;
     }
-    if (req.body.password) {
+    if (req?.body?.password) {
       let newPassword = await bcrypt.hash(req.body.password, 10);
       console.log("newPassword", newPassword);
       req.body.password = newPassword;
