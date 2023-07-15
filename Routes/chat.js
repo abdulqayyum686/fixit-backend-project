@@ -3,7 +3,7 @@ const express = require("express");
 const ChatRoute = express.Router();
 let Chat = require("../Models/chat");
 let userChatNotification = require("../Models/userChatNotification");
-const sendEmail = require("../utils/sendEmail");
+const sendMessageEmail = require("../utils/messageEmail");
 const upload = require("../utils/uploadImages");
 const {
   getLastMessagesFromRoom,
@@ -24,10 +24,11 @@ ChatRoute.route("/send-message").post(
       from: JSON.parse(req.body.sender),
       to: req.body.roomId,
     });
-
+    console.log("neww message====", JSON.parse(req.body.sender).name);
     newChat
       .save()
       .then(async (chat) => {
+        sendMessageEmail(JSON.parse(req.body.sender));
         let roomMessages = await getLastMessagesFromRoom(req.body.roomId);
         roomMessages = await sortRoomMessagesByDate(roomMessages);
         // console.log("get aggregate", req.io);

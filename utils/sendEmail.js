@@ -10,6 +10,9 @@ var transporter = nodemailer.createTransport({
     user: "qayyuma686@gmail.com",
     pass: "vdcbehrrxxbtefhi",
   },
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
 
 function sendEmail(to, subject, text, verifyToken) {
