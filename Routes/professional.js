@@ -226,6 +226,42 @@ ProfessionalRoute.route("/delete/:id").post(function (req, res) {
       res.status(200).json({ User: "User Delted successfully" });
     });
 });
+ProfessionalRoute.route("/delete-review/:id/:reviewId").post(async function (
+  req,
+  res
+) {
+  try {
+    console.log("object", req.params);
+    let professional = await Professional.findOne({ _id: req.params.id });
+    let clone = [...professional.reviews];
+    let array = clone.filter(
+      (p) => p._id.toString() !== req.params.reviewId.toString()
+    );
+    console.log("array", array);
+
+    Professional.findByIdAndUpdate(
+      { _id: req.params.id },
+      {
+        reviews: array,
+      },
+      { new: true }
+    )
+      .then((updatedDocument) => {
+        console.log("Document updated:", updatedDocument);
+        res.status(200).json({
+          message: "Review deleted successfully",
+          updatedDocument,
+        });
+      })
+      .catch((error) => {
+        console.error("Error updating document:", error);
+        res.status(500).json({ error });
+      });
+  } catch (err) {
+    console.log("Error deleting sub task:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 ProfessionalRoute.route("/update/:id").put(
   upload.fields([
     { name: "uq", maxCount: 1 },

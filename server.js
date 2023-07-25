@@ -18,6 +18,8 @@ const subscriberroute = require("./Routes/Subscriber.route");
 const clientRoute = require("./Routes/client");
 const professionalRoute = require("./Routes/professional");
 const chatRoute = require("./Routes/chat");
+const homepageTextRoute = require("./Routes/homepageText");
+const adminRoute = require("./Routes/admin");
 const userChatNotifications = require("./Models/userChatNotification");
 
 app.use(cors());
@@ -77,6 +79,8 @@ app.use("/api/signup", ioMiddleware, subscriberroute);
 app.use("/api/client", ioMiddleware, clientRoute);
 app.use("/api/professional", ioMiddleware, professionalRoute);
 app.use("/api/chat", ioMiddleware, chatRoute);
+app.use("/api/homepage-text", ioMiddleware, homepageTextRoute);
+app.use("/api/admin", ioMiddleware, adminRoute);
 
 // app.get("*", (req, res) => {
 //   res.sendFile(path.resolve(__dirname, "./myapp", "build", "index.html"));
