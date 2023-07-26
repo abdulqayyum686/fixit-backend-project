@@ -84,8 +84,8 @@ ProfessionalRoute.route("/add-professional").post(
                 ],
                 mode: "payment",
                 customer: customer.id,
-                success_url: `https://fixitfrontend.netlify.app/login`,
-                cancel_url: `https://fixitfrontend.netlify.app/login`,
+                success_url: `http://18.170.102.108/`,
+                cancel_url: `http://18.170.102.108/`,
               });
               res.status(200).json({
                 url: session.url,
