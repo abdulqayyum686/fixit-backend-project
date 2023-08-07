@@ -10,7 +10,8 @@ const sendEmail = require("../utils/sendEmail");
 const upload = require("../utils/uploadImages");
 const bcrypt = require("bcryptjs");
 const stripe = require("stripe")(
-  "sk_test_51I7MxrImK1h8PcwnpgZeACgOSEAICJ4gbm78ZPBD99pcRqrdTMDXdo8wycujmsv1kLSsoc4r7yThBbnuqxA5wOYU00QbPQPi7E"
+  // "sk_test_51I7MxrImK1h8PcwnpgZeACgOSEAICJ4gbm78ZPBD99pcRqrdTMDXdo8wycujmsv1kLSsoc4r7yThBbnuqxA5wOYU00QbPQPi7E"
+  "sk_test_51NX1sqIczjEzgJwauX7bzE4SLUuvNoZIpFMvvH0n2Rl0pBBR0YYCyUIlMWmKAjUh8kidVseIccFViCLCdfnhiBfN00tv2JqTsN"
 );
 
 ProfessionalRoute.route("/add-professional").post(
