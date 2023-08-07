@@ -35,6 +35,9 @@ let clientScheema = new Schema({
   gdpr: {
     type: String,
   },
+  privacy: {
+    type: String,
+  },
   accountType: {
     type: String,
   },

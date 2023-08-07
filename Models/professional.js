@@ -8,6 +8,7 @@ const ObjectSchema = new Schema({
   },
   message: { type: String, required: true },
   rating: { type: Number, required: true },
+  isShown: { type: Boolean, required: true, default: false },
 });
 
 let professionalScheema = new Schema({
@@ -58,6 +59,12 @@ let professionalScheema = new Schema({
     default: false,
   },
   accountType: {
+    type: String,
+  },
+  gdpr: {
+    type: String,
+  },
+  privacy: {
     type: String,
   },
   isApproved: {

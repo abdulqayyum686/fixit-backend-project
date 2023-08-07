@@ -262,6 +262,35 @@ ProfessionalRoute.route("/delete-review/:id/:reviewId").post(async function (
     res.status(500).json({ error: "Internal server error" });
   }
 });
+ProfessionalRoute.route("/change-review-status/:id").post(async function (
+  req,
+  res
+) {
+  const { reviews } = req.body;
+  try {
+    Professional.findByIdAndUpdate(
+      { _id: req.params.id },
+      {
+        reviews: reviews,
+      },
+      { new: true }
+    )
+      .then((updatedDocument) => {
+        console.log("Document updated:", updatedDocument);
+        res.status(200).json({
+          message: "Review Status Changed successfully",
+          updatedDocument,
+        });
+      })
+      .catch((error) => {
+        console.error("Error updating document:", error);
+        res.status(500).json({ error });
+      });
+  } catch (err) {
+    console.log("Error deleting sub task:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 ProfessionalRoute.route("/update/:id").put(
   upload.fields([
     { name: "uq", maxCount: 1 },
