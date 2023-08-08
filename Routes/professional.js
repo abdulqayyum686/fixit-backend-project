@@ -44,7 +44,7 @@ ProfessionalRoute.route("/add-professional").post(
     console.log("user====", user !== null, user);
     if (user !== null) {
       return res.status(500).json({
-        message: "Professional already exist",
+        message: "Email already exist",
       });
     }
 
@@ -67,10 +67,14 @@ ProfessionalRoute.route("/add-professional").post(
         Users.save()
           .then(async (User) => {
             console.log("data===", "User");
-            let id = jwt.sign({ id: User?.id }, "jwtPrivateKey", {
-              expiresIn: "10m",
-            });
-            sendEmail(User?.email, "Email Confirmation", "normal", id);
+            const token = jwt.sign(
+              { ...User.toObject(), password: "" },
+              "secret",
+              {
+                expiresIn: "5d",
+              }
+            );
+            sendEmail(User?.email, "Email Confirmation", "normal", token);
             // stripe payment gateway
             if (type === "premium") {
               const customer = await stripe.customers.create({
@@ -95,6 +99,9 @@ ProfessionalRoute.route("/add-professional").post(
             if (type !== "premium") {
               res.status(200).json({
                 message: "Professional added successfully",
+                token: token,
+                message: "Login successfully",
+                user: User,
               });
             }
           })

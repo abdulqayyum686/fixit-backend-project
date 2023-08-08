@@ -16,6 +16,11 @@ UserRoute.route("/add-client").post(
     if (req.file) {
       image = "img/" + req.file.filename;
     }
+    let found = await Client.findOne({ email: req.body.email });
+    if (found) {
+      res.status(500).json({ message: "Email already exist" });
+      return;
+    }
 
     await bcrypt.hash(req.body.password, 10, (err, hash) => {
       if (err) {
@@ -32,11 +37,20 @@ UserRoute.route("/add-client").post(
         Users.save()
           .then((User) => {
             console.log("data===", User);
-            let id = jwt.sign({ id: User?.id }, "jwtPrivateKey", {
-              expiresIn: "10m",
+            const token = jwt.sign(
+              { ...User.toObject(), password: "" },
+              "secret",
+              {
+                expiresIn: "5d",
+              }
+            );
+            sendEmail(User?.email, "Email Confirmation", "normal", token);
+            res.status(200).json({
+              User: "client added successfully",
+              token: token,
+              message: "Login successfully",
+              user: User,
             });
-            sendEmail(User?.email, "Email Confirmation", "normal", id);
-            res.status(200).json({ User: "client added successfully" });
           })
           .catch((err) => {
             console.log(err);
@@ -53,9 +67,7 @@ UserRoute.route("/client-auth").post(function (req, res) {
     .then(async (foundObject) => {
       if (foundObject) {
         console.log("data===", foundObject);
-        let id = jwt.sign({ id: foundObject.id }, "jwtPrivateKey", {
-          expiresIn: "10m",
-        });
+
         // sendEmail(foundObject.email, "Email Confirmation", "normal", id);
         await bcrypt.compare(
           password,
