@@ -82,7 +82,7 @@ ProfessionalRoute.route("/add-professional").post(
                   "My First Test Customer (created for API docs at https://www.stripe.com/docs/api)",
                 metadata: { professional_id: User._id.toString() },
               });
-              // console.log("kkk===============", customer);
+              console.log("kkk===============", customer);
               const session = await stripe.checkout.sessions.create({
                 line_items: [
                   { price: "price_1NdY1sImK1h8PcwnoEBSXqQk", quantity: 1 },
@@ -129,15 +129,15 @@ ProfessionalRoute.route("/stripe-payment-webhook").post(async function (
     console.log("stripe customer======", customer.metadata.professional_id);
     console.log("enter in conmpleted", customer);
     let obj = { status: false, expiry: null };
-    if (customer.subscriptions.data.length > 0) {
-      const subscription = customer.subscriptions.data[0];
-      const subscriptionStatus = subscription.status;
-      const subscriptionExpiry = new Date(
-        subscription.current_period_end * 1000
-      );
-      obj.status = subscriptionStatus;
-      obj.expiry = subscriptionExpiry;
-    }
+    // if (customer.subscriptions.data.length > 0) {
+    //   const subscription = customer.subscriptions.data[0];
+    //   const subscriptionStatus = subscription.status;
+    //   const subscriptionExpiry = new Date(
+    //     subscription.current_period_end * 1000
+    //   );
+    //   obj.status = subscriptionStatus;
+    //   obj.expiry = subscriptionExpiry;
+    // }
     await Professional.findByIdAndUpdate(
       { _id: customer.metadata.professional_id },
       {
