@@ -340,7 +340,10 @@ ProfessionalRoute.route("/update/:id").put(
     }
     console.log("new password====", req.body.password);
     if (req.body.accountPaymentStatus === false) {
-      const deleted = await stripe.subscriptions.cancel(req.body.sub_Id);
+      const deleted = await stripe.subscriptions.cancel(
+        req.body.sub_Id.toString()
+      );
+      console.log("data===", req.body.sub_Id.toString());
       if (deleted) {
         req.body.subscription = null;
       }
