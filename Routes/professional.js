@@ -11,7 +11,6 @@ const upload = require("../utils/uploadImages");
 const bcrypt = require("bcryptjs");
 const stripe = require("stripe")(
   "sk_test_51NX1sqIczjEzgJwauX7bzE4SLUuvNoZIpFMvvH0n2Rl0pBBR0YYCyUIlMWmKAjUh8kidVseIccFViCLCdfnhiBfN00tv2JqTsN"
-  // "sk_test_51NX1sqIczjEzgJwauX7bzE4SLUuvNoZIpFMvvH0n2Rl0pBBR0YYCyUIlMWmKAjUh8kidVseIccFViCLCdfnhiBfN00tv2JqTsN"
 );
 
 ProfessionalRoute.route("/add-professional").post(
@@ -340,6 +339,12 @@ ProfessionalRoute.route("/update/:id").put(
       req.body.password = newPassword;
     }
     console.log("new password====", req.body.password);
+    if (req.body.accountPaymentStatus === false) {
+      const deleted = await stripe.subscriptions.cancel(req.body.sub_Id);
+      if (deleted) {
+        req.body.subscription = null;
+      }
+    }
 
     Professional.findOneAndUpdate(
       { _id: req.params.id },
