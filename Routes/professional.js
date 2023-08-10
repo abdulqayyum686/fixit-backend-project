@@ -10,7 +10,7 @@ const sendEmail = require("../utils/sendEmail");
 const upload = require("../utils/uploadImages");
 const bcrypt = require("bcryptjs");
 const stripe = require("stripe")(
-  "sk_test_51I7MxrImK1h8PcwnpgZeACgOSEAICJ4gbm78ZPBD99pcRqrdTMDXdo8wycujmsv1kLSsoc4r7yThBbnuqxA5wOYU00QbPQPi7E"
+  "sk_test_51NX1sqIczjEzgJwauX7bzE4SLUuvNoZIpFMvvH0n2Rl0pBBR0YYCyUIlMWmKAjUh8kidVseIccFViCLCdfnhiBfN00tv2JqTsN"
   // "sk_test_51NX1sqIczjEzgJwauX7bzE4SLUuvNoZIpFMvvH0n2Rl0pBBR0YYCyUIlMWmKAjUh8kidVseIccFViCLCdfnhiBfN00tv2JqTsN"
 );
 
@@ -85,7 +85,7 @@ ProfessionalRoute.route("/add-professional").post(
               console.log("kkk===============", customer);
               const session = await stripe.checkout.sessions.create({
                 line_items: [
-                  { price: "price_1NdY1sImK1h8PcwnoEBSXqQk", quantity: 1 },
+                  { price: "price_1NdfXOIczjEzgJwaP1szukZm", quantity: 1 },
                 ],
                 mode: "subscription",
                 customer: customer.id,
@@ -124,22 +124,12 @@ ProfessionalRoute.route("/stripe-payment-webhook").post(async function (
   // console.log("data", data);
   console.log("eventtype", event.type);
   if (event.type === "checkout.session.completed") {
-    console.log("data=============================", data);
+    // console.log("data=============================", data);
     let customer = await stripe.customers.retrieve(data.customer);
-    console.log("stripe customer======", customer.metadata.professional_id);
-    console.log("enter in conmpleted", customer);
-    let obj = { status: false, expiry: null };
+    // console.log("stripe customer======", customer.metadata.professional_id);
+    // console.log("enter in conmpleted", customer);
     const subscriptionId = data.subscription;
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-
-    // if (subscription.items.subscriptions.data.length > 0) {
-    //   const subscriptionData = subscription.items.subscriptions.data[0];
-
-    //   const subscriptionStatus = subscription.status;
-    //   const subscriptionExpiry = subscription.current_period_end;
-    //   obj.status = subscriptionStatus;
-    //   obj.expiry = subscriptionExpiry;
-    // }
     await Professional.findByIdAndUpdate(
       { _id: customer.metadata.professional_id },
       {
@@ -151,9 +141,9 @@ ProfessionalRoute.route("/stripe-payment-webhook").post(async function (
     );
   }
   if (event.type === "checkout.session.expired") {
-    console.log("enter in payment_failed");
+    // console.log("enter in payment_failed");
     let customer = await stripe.customers.retrieve(data.customer);
-    console.log("stripe customer======333", customer.metadata.professional_id);
+    // console.log("stripe customer======333", customer.metadata.professional_id);
     await Professional.findByIdAndRemove(
       { _id: customer.metadata.professional_id },
       { useFindAndModify: false, new: true }
