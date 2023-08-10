@@ -129,12 +129,14 @@ ProfessionalRoute.route("/stripe-payment-webhook").post(async function (
     console.log("stripe customer======", customer.metadata.professional_id);
     console.log("enter in conmpleted", customer);
     let obj = { status: false, expiry: null };
-    // if (customer.subscriptions.data.length > 0) {
-    //   const subscription = customer.subscriptions.data[0];
+    const subscriptionId = data.subscription;
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+
+    // if (subscription.items.subscriptions.data.length > 0) {
+    //   const subscriptionData = subscription.items.subscriptions.data[0];
+
     //   const subscriptionStatus = subscription.status;
-    //   const subscriptionExpiry = new Date(
-    //     subscription.current_period_end * 1000
-    //   );
+    //   const subscriptionExpiry = subscription.current_period_end;
     //   obj.status = subscriptionStatus;
     //   obj.expiry = subscriptionExpiry;
     // }
@@ -143,7 +145,7 @@ ProfessionalRoute.route("/stripe-payment-webhook").post(async function (
       {
         cus_Id: customer.id,
         accountPaymentStatus: true,
-        subscription: obj,
+        subscription: subscription,
       },
       { useFindAndModify: false, new: true }
     );
@@ -166,8 +168,6 @@ ProfessionalRoute.route("/professional-auth").post(function (req, res) {
   Professional.findOne({ email: email })
     .exec()
     .then(async (foundObject) => {
-      let customer = await stripe.customers.retrieve("cus_OQVuKBqBtFZlLs");
-      console.log("stripe customer======", customer);
       if (foundObject) {
         await bcrypt.compare(
           password,
