@@ -126,8 +126,8 @@ ProfessionalRoute.route("/stripe-payment-webhook").post(async function (
   if (event.type === "checkout.session.completed") {
     console.log("data=============================", data);
     let customer = await stripe.customers.retrieve(data.customer);
-    // console.log("stripe customer======", customer.metadata.professional_id);
-    // console.log("enter in conmpleted", customer);
+    console.log("stripe customer======", customer.metadata.professional_id);
+    console.log("enter in conmpleted", customer);
     let obj = { status: false, expiry: null };
     if (customer.subscriptions.data.length > 0) {
       const subscription = customer.subscriptions.data[0];
