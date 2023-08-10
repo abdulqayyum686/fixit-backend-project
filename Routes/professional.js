@@ -10,8 +10,8 @@ const sendEmail = require("../utils/sendEmail");
 const upload = require("../utils/uploadImages");
 const bcrypt = require("bcryptjs");
 const stripe = require("stripe")(
-  // "sk_test_51I7MxrImK1h8PcwnpgZeACgOSEAICJ4gbm78ZPBD99pcRqrdTMDXdo8wycujmsv1kLSsoc4r7yThBbnuqxA5wOYU00QbPQPi7E"
-  "sk_test_51NX1sqIczjEzgJwauX7bzE4SLUuvNoZIpFMvvH0n2Rl0pBBR0YYCyUIlMWmKAjUh8kidVseIccFViCLCdfnhiBfN00tv2JqTsN"
+  "sk_test_51I7MxrImK1h8PcwnpgZeACgOSEAICJ4gbm78ZPBD99pcRqrdTMDXdo8wycujmsv1kLSsoc4r7yThBbnuqxA5wOYU00QbPQPi7E"
+  // "sk_test_51NX1sqIczjEzgJwauX7bzE4SLUuvNoZIpFMvvH0n2Rl0pBBR0YYCyUIlMWmKAjUh8kidVseIccFViCLCdfnhiBfN00tv2JqTsN"
 );
 
 ProfessionalRoute.route("/add-professional").post(
@@ -85,9 +85,9 @@ ProfessionalRoute.route("/add-professional").post(
               // console.log("kkk===============", customer);
               const session = await stripe.checkout.sessions.create({
                 line_items: [
-                  { price: "price_1NOR1EImK1h8PcwnxwjJqJw5", quantity: 1 },
+                  { price: "price_1NdY1sImK1h8PcwnoEBSXqQk", quantity: 1 },
                 ],
-                mode: "payment",
+                mode: "subscription",
                 customer: customer.id,
                 success_url: `http://18.170.102.108/`,
                 cancel_url: `http://18.170.102.108/`,
@@ -127,11 +127,12 @@ ProfessionalRoute.route("/stripe-payment-webhook").post(async function (
     console.log("data=============================", data);
     let customer = await stripe.customers.retrieve(data.customer);
     console.log("stripe customer======", customer.metadata.professional_id);
-    console.log("enter in conmpleted");
+    console.log("enter in conmpleted", customer);
     await Professional.findByIdAndUpdate(
       { _id: customer.metadata.professional_id },
       {
         accountPaymentStatus: true,
+        cus_Id: customer.id,
       },
       { useFindAndModify: false, new: true }
     );

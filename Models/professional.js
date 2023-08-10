@@ -67,6 +67,9 @@ let professionalScheema = new Schema({
   privacy: {
     type: String,
   },
+  cus_Id: {
+    type: String,
+  },
   isApproved: {
     type: Boolean,
     default: false,
