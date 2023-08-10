@@ -149,6 +149,15 @@ ProfessionalRoute.route("/stripe-payment-webhook").post(async function (
       { useFindAndModify: false, new: true }
     );
   }
+  if (event.type === "checkout.session.async_payment_failed") {
+    // console.log("enter in payment_failed");
+    let customer = await stripe.customers.retrieve(data.customer);
+    // console.log("stripe customer======333", customer.metadata.professional_id);
+    await Professional.findByIdAndRemove(
+      { _id: customer.metadata.professional_id },
+      { useFindAndModify: false, new: true }
+    );
+  }
   // Return a 200 response to acknowledge receipt of the event
   res.status(200).send("completed");
 });
