@@ -74,6 +74,10 @@ let professionalScheema = new Schema({
     type: Boolean,
     default: false,
   },
+  subscription: {
+    type: Object,
+    default: false,
+  },
   chatIds: {
     type: Array,
     default: [],

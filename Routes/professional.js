@@ -126,13 +126,24 @@ ProfessionalRoute.route("/stripe-payment-webhook").post(async function (
   if (event.type === "checkout.session.completed") {
     console.log("data=============================", data);
     let customer = await stripe.customers.retrieve(data.customer);
-    console.log("stripe customer======", customer.metadata.professional_id);
-    console.log("enter in conmpleted", customer);
+    // console.log("stripe customer======", customer.metadata.professional_id);
+    // console.log("enter in conmpleted", customer);
+    let obj = { status: false, expiry: null };
+    if (customer.subscriptions.data.length > 0) {
+      const subscription = customer.subscriptions.data[0];
+      const subscriptionStatus = subscription.status;
+      const subscriptionExpiry = new Date(
+        subscription.current_period_end * 1000
+      );
+      obj.status = subscriptionStatus;
+      obj.expiry = subscriptionExpiry;
+    }
     await Professional.findByIdAndUpdate(
       { _id: customer.metadata.professional_id },
       {
-        accountPaymentStatus: true,
         cus_Id: customer.id,
+        accountPaymentStatus: true,
+        subscription: obj,
       },
       { useFindAndModify: false, new: true }
     );
