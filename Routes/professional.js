@@ -176,13 +176,11 @@ ProfessionalRoute.route("/professional-auth").post(function (req, res) {
               return res.status(501).json({ err, err });
             } else {
               if (newResult) {
-                const token = jwt.sign(
-                  { ...foundObject.toObject(), password: "" },
-                  "secret",
-                  {
-                    expiresIn: "5d",
-                  }
-                );
+                let obj = { ...foundObject.toObject() };
+                delete obj["subscription"];
+                const token = jwt.sign({ ...obj, password: "" }, "secret", {
+                  expiresIn: "5d",
+                });
 
                 return res.status(200).json({
                   token: token,
