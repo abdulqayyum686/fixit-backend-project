@@ -166,6 +166,8 @@ ProfessionalRoute.route("/professional-auth").post(function (req, res) {
   Professional.findOne({ email: email })
     .exec()
     .then(async (foundObject) => {
+      let customer = await stripe.customers.retrieve("cus_OQVuKBqBtFZlLs");
+      console.log("stripe customer======", customer);
       if (foundObject) {
         await bcrypt.compare(
           password,
