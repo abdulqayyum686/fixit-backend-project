@@ -376,5 +376,22 @@ ProfessionalRoute.route("/update/:id").put(
     );
   }
 );
+ProfessionalRoute.route("/enhanced-subscription/:id").put(async function (
+  req,
+  res
+) {
+  const { cus_Id } = req.body;
+
+  const session = await stripe.checkout.sessions.create({
+    line_items: [{ price: "price_1NdfXOIczjEzgJwaP1szukZm", quantity: 1 }],
+    mode: "subscription",
+    customer: cus_Id,
+    success_url: `http://18.170.102.108/`,
+    cancel_url: `http://18.170.102.108/`,
+  });
+  res.status(200).json({
+    url: session.url,
+  });
+});
 
 module.exports = ProfessionalRoute;
