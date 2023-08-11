@@ -381,7 +381,7 @@ ProfessionalRoute.route("/enhanced-subscription/:id").put(async function (
   res
 ) {
   const { cus_Id } = req.body;
-
+  console.log("cus_Id", cus_Id);
   const session = await stripe.checkout.sessions.create({
     line_items: [{ price: "price_1NdfXOIczjEzgJwaP1szukZm", quantity: 1 }],
     mode: "subscription",
