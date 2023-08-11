@@ -132,6 +132,7 @@ io.on("connection", async (socket) => {
     }
     if (sender.accountType === "client") {
       followingProfessional(sender._id, reciever._id);
+      followingClient(reciever._id, sender._id);
     } else {
       followingClient(sender._id, reciever._id);
     }
