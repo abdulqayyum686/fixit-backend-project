@@ -26,6 +26,7 @@ function sendMessageEmail(to) {
         You Got New Message from  ${to.name} please check your chat section 
         
        </p>
+       <a href="/http://18.170.102.108/chat" class="button">Link Button</a>
         
      
     </div>
