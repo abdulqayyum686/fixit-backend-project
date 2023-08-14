@@ -29,7 +29,7 @@ ChatRoute.route("/send-message").post(
       .save()
       .then(async (chat) => {
         let url =
-          JSON.parse(req.body.sender).accountType === "professional"
+          JSON.parse(req.body.reciever).accountType === "professional"
             ? "http://18.170.102.108/professional-chat"
             : "http://18.170.102.108/client-chat";
         sendMessageEmail(JSON.parse(req.body.sender), url);
