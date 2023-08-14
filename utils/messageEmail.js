@@ -1,7 +1,7 @@
 // const { SMTPClient, Message } = require("emailjs");
 const config = require("config");
 const nodemailer = require("nodemailer");
-function sendMessageEmail(to) {
+function sendMessageEmail(to, url) {
   console.log(to, "ali raza====");
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -26,7 +26,7 @@ function sendMessageEmail(to) {
         You Got New Message from  ${to.name} please check your chat section 
         
        </p>
-       <a href="http://18.170.102.108/chat" style=\"padding: 10px; color: black; background:#ffd773 ;\">Link Button</a>
+       <a href=${url} style=\"padding: 10px; color: black; background:#ffd773 ;\">Link Button</a>
         
      
     </div>
