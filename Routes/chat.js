@@ -32,7 +32,11 @@ ChatRoute.route("/send-message").post(
           JSON.parse(req.body.reciever).accountType === "professional"
             ? "http://18.170.102.108/professional-chat"
             : "http://18.170.102.108/client-chat";
-        sendMessageEmail(JSON.parse(req.body.sender), url);
+        sendMessageEmail(
+          JSON.parse(req.body.sender),
+          JSON.parse(req.body.reciever),
+          url
+        );
         let roomMessages = await getLastMessagesFromRoom(req.body.roomId);
         roomMessages = await sortRoomMessagesByDate(roomMessages);
         // console.log("get aggregate", req.io);
