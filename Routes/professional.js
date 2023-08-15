@@ -83,6 +83,7 @@ ProfessionalRoute.route("/add-professional").post(
               });
               console.log("kkk===============", customer);
               const session = await stripe.checkout.sessions.create({
+                payment_method_types: ["card"],
                 line_items: [
                   { price: "price_1NdfXOIczjEzgJwaP1szukZm", quantity: 1 },
                 ],
