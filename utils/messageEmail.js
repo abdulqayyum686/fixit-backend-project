@@ -8,8 +8,10 @@ function sendMessageEmail(from, to, url) {
     port: 465,
     secure: true,
     auth: {
-      user: "qayyuma686@gmail.com",
-      pass: "ziyfvpktqpmamnru",
+      user: "Customer@flixit.co.Uk",
+      pass: "/!P8.WxJygv9ZZq",
+      // user: "qayyuma686@gmail.com",
+      // pass: "ziyfvpktqpmamnru",
     },
     tls: {
       rejectUnauthorized: false,

@@ -5,10 +5,10 @@ var transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
   auth: {
-    // user: "itsoxama@gmail.com",
-    // pass: "jskplmughhwbcxxi",
-    user: "qayyuma686@gmail.com",
-    pass: "vdcbehrrxxbtefhi",
+    user: "Customer@flixit.co.Uk",
+    pass: "/!P8.WxJygv9ZZq",
+    // user: "qayyuma686@gmail.com",
+    // pass: "vdcbehrrxxbtefhi",
   },
   tls: {
     rejectUnauthorized: false,
@@ -22,10 +22,10 @@ function sendEmail(to, subject, text, verifyToken) {
     port: 465,
     secure: true,
     auth: {
-      user: "qayyuma686@gmail.com",
-      pass: "ziyfvpktqpmamnru",
       // user: "qayyuma686@gmail.com",
-      // pass: "vdcbehrrxxbtefhi",
+      // pass: "ziyfvpktqpmamnru",
+      user: "Customer@flixit.co.Uk",
+      pass: "/!P8.WxJygv9ZZq",
     },
   });
   const message = {
