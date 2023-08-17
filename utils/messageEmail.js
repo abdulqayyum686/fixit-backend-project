@@ -4,14 +4,14 @@ const nodemailer = require("nodemailer");
 function sendMessageEmail(from, to, url) {
   console.log(to, "ali raza====");
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: "my.smtp.host",
     port: 465,
     secure: true,
     auth: {
-      user: "Customer@flixit.co.Uk",
-      pass: "/!P8.WxJygv9ZZq",
-      // user: "qayyuma686@gmail.com",
-      // pass: "ziyfvpktqpmamnru",
+      // user: "Customer@flixit.co.Uk",
+      // pass: "/!P8.WxJygv9ZZq",
+      user: "qayyuma686@gmail.com",
+      pass: "ziyfvpktqpmamnru",
     },
     tls: {
       rejectUnauthorized: false,

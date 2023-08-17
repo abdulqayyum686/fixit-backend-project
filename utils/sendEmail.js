@@ -22,10 +22,10 @@ function sendEmail(to, subject, text, verifyToken) {
     port: 465,
     secure: true,
     auth: {
-      // user: "qayyuma686@gmail.com",
-      // pass: "ziyfvpktqpmamnru",
-      user: "Customer@flixit.co.Uk",
-      pass: "/!P8.WxJygv9ZZq",
+      user: "qayyuma686@gmail.com",
+      pass: "ziyfvpktqpmamnru",
+      // user: "Customer@flixit.co.Uk",
+      // pass: "/!P8.WxJygv9ZZq",
     },
   });
   const message = {
