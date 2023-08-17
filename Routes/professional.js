@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 let Professional = require("../Models/professional");
 var nodemailer = require("nodemailer");
 const sendEmail = require("../utils/sendEmail");
+const jwt_decode = require("jwt-decode");
 const upload = require("../utils/uploadImages");
 const bcrypt = require("bcryptjs");
 const stripe = require("stripe")(
@@ -407,7 +408,7 @@ ProfessionalRoute.route("/verify/:token").get(async function (req, res) {
       return res.status(400).send({ message: "Token is missing." });
     let tok = jwt_decode(req.params.token);
 
-    // console.log("new login", tok);
+    console.log("new login", tok);
     let user = await Professional.findOne({ _id: tok._id });
 
     if (!user) return res.status(400).send("Link Expired..");
