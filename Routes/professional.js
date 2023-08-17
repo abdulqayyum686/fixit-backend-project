@@ -164,7 +164,7 @@ ProfessionalRoute.route("/stripe-payment-webhook").post(async function (
 ProfessionalRoute.route("/professional-auth").post(function (req, res) {
   console.log(req.body);
   const { email, password } = req.body;
-  Professional.findOne({ email: email })
+  Professional.findOne({ email: email, isApproved: true })
     .exec()
     .then(async (foundObject) => {
       if (foundObject) {
@@ -198,7 +198,7 @@ ProfessionalRoute.route("/professional-auth").post(function (req, res) {
         );
       } else {
         return res.status(404).json({
-          message: "Opps invalid email",
+          message: "Opps invalid email or account doesnot verified",
         });
       }
     })

@@ -62,7 +62,7 @@ UserRoute.route("/add-client").post(
 UserRoute.route("/client-auth").post(function (req, res) {
   console.log(req.body, "client");
   const { email, password } = req.body;
-  Client.findOne({ email: email })
+  Client.findOne({ email: email, isApproved: true })
     .exec()
     .then(async (foundObject) => {
       if (foundObject) {
@@ -101,7 +101,7 @@ UserRoute.route("/client-auth").post(function (req, res) {
         );
       } else {
         return res.status(404).json({
-          message: "Opps invalid email",
+          message: "Opps invalid email or account doesnot verified",
         });
       }
     })
