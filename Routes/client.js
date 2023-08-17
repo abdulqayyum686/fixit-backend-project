@@ -153,13 +153,13 @@ UserRoute.route("/verify/:token").get(async function (req, res) {
     console.log("new login", tok, user);
 
     if (!user) return res.status(400).send("Link Expired..");
-    if (user.isApproved) {
+    if (user.isApproved === false) {
+      console.log("enter in else if");
       return res.render("emailconfirm", {
         title: "Verified.",
         status: "Email Is Already Verified..",
         icon: "t",
       });
-      console.log("enter in else if");
     } else {
       Client.findOneAndUpdate({ _id: req.body._id }, { isApproved: true });
       console.log("enter in else");
