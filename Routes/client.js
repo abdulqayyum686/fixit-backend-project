@@ -161,7 +161,7 @@ UserRoute.route("/verify/:token").get(async function (req, res) {
         icon: "t",
       });
     } else {
-      Client.findOneAndUpdate({ _id: req.body._id }, { isApproved: true });
+      Client.findOneAndUpdate({ _id: tok.id }, { isApproved: true });
       console.log("enter in else");
     }
 
