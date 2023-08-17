@@ -162,7 +162,7 @@ UserRoute.route("/verify/:token").get(async function (req, res) {
         icon: "t",
       });
     } else {
-      Client.findOneAndUpdate(
+      await Client.findOneAndUpdate(
         { _id: tok._id },
         {
           isApproved: true,
