@@ -153,7 +153,7 @@ UserRoute.route("/verify/:token").get(async function (req, res) {
     console.log("new login", tok, user);
 
     if (!user) return res.status(400).send("Link Expired..");
-    if (user.isApproved === false) {
+    if (user.isApproved) {
       console.log("enter in else if");
       return res.render("emailconfirm", {
         title: "Verified.",
