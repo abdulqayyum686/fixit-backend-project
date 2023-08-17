@@ -8,6 +8,7 @@ let Client = require("../Models/client");
 const sendEmail = require("../utils/sendEmail");
 const upload = require("../utils/uploadImages");
 const bcrypt = require("bcryptjs");
+const jwt_decode = require("jwt-decode");
 
 UserRoute.route("/add-client").post(
   upload.single("profile"),
@@ -143,14 +144,14 @@ UserRoute.route("/getallusers").get(function (req, res) {
   });
 });
 UserRoute.route("/verify/:token").get(async function (req, res) {
-  // console.log("req.boyy===", req.body, req.params);
+  console.log("req.boyy===", req.body, req.params);
   try {
     if (!req.params.token)
       return res.status(400).send({ message: "Token is missing." });
-    let tok = jwt.verify(req.params.token, "jwtPrivateKey");
+    let tok = jwt_decode(req.params.token);
 
-    let user = await Client.findOne({ _id: tok.id });
-    console.log("new login", tok, user);
+    console.log("new login", tok);
+    let user = await Client.findOne({ _id: tok._id });
 
     if (!user) return res.status(400).send("Link Expired..");
     if (user.isApproved === true) {
@@ -161,7 +162,7 @@ UserRoute.route("/verify/:token").get(async function (req, res) {
         icon: "t",
       });
     } else {
-      Client.findOneAndUpdate({ _id: tok.id }, { isApproved: true });
+      Client.findOneAndUpdate({ _id: tok._id }, { isApproved: true });
       console.log("enter in else");
     }
 
