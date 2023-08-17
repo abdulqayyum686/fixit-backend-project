@@ -144,13 +144,13 @@ UserRoute.route("/getallusers").get(function (req, res) {
   });
 });
 UserRoute.route("/verify/:token").get(async function (req, res) {
-  console.log("req.boyy===", req.body, req.params);
+  // console.log("req.boyy===", req.body, req.params);
   try {
     if (!req.params.token)
       return res.status(400).send({ message: "Token is missing." });
     let tok = jwt_decode(req.params.token);
 
-    console.log("new login", tok);
+    // console.log("new login", tok);
     let user = await Client.findOne({ _id: tok._id });
 
     if (!user) return res.status(400).send("Link Expired..");
@@ -162,10 +162,15 @@ UserRoute.route("/verify/:token").get(async function (req, res) {
         icon: "t",
       });
     } else {
-      Client.findOneAndUpdate({ _id: tok._id }, { isApproved: true });
-      console.log("enter in else");
+      Client.findOneAndUpdate(
+        { _id: tok._id },
+        {
+          isApproved: true,
+        },
+        { new: true }
+      );
+      console.log("enter in else", updae);
     }
-
     return res.render("emailconfirm", {
       title: "Verified.",
       status: "Email Verified..",
