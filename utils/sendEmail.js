@@ -45,7 +45,7 @@ function sendEmail(to, subject, text, verifyToken) {
             : "Please verify your email address to complete your registration:"
         }</p>
         <div style=\"text-align: center;\">
-          <a href="http://localhost:4000/api/client/${
+          <a href="http://18.170.102.108/api/client/${
             text == "forgot" ? "forgotform" : "verify"
           }/${verifyToken}" style=\"display: inline-block; padding: 10px 20px; background-color: #1f88be; color: white; font-size: 16px; text-decoration: none; border-radius: 5px; margin-top: 30px;\">${
       text == "forgot" ? "Reset Password" : "Verify Email"

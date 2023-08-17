@@ -143,7 +143,7 @@ UserRoute.route("/getallusers").get(function (req, res) {
   });
 });
 UserRoute.route("/verify/:token").get(async function (req, res) {
-  console.log("req.boyy===", req.body, req.params);
+  // console.log("req.boyy===", req.body, req.params);
   try {
     if (!req.params.token)
       return res.status(400).send({ message: "Token is missing." });
