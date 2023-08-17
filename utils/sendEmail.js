@@ -1,19 +1,6 @@
 // const { SMTPClient, Message } = require("emailjs");
 const config = require("config");
 const nodemailer = require("nodemailer");
-var transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  auth: {
-    user: "Customer@flixit.co.Uk",
-    pass: "/!P8.WxJygv9ZZq",
-    // user: "qayyuma686@gmail.com",
-    // pass: "vdcbehrrxxbtefhi",
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
 
 function sendEmail(to, subject, text, verifyToken, type) {
   console.log(to, subject, text, verifyToken, "afzal");
@@ -24,8 +11,6 @@ function sendEmail(to, subject, text, verifyToken, type) {
     auth: {
       user: "qayyuma686@gmail.com",
       pass: "ziyfvpktqpmamnru",
-      // user: "Customer@flixit.co.Uk",
-      // pass: "/!P8.WxJygv9ZZq",
     },
   });
   const message = {
@@ -44,13 +29,24 @@ function sendEmail(to, subject, text, verifyToken, type) {
             ? "Please click the button below to reset your password:"
             : "Please verify your email address to complete your registration:"
         }</p>
-        <div style=\"text-align: center;\">
-          <a href="http://13.42.57.230/api/${type}/${
-      text == "forgot" ? "forgotform" : "verify"
-    }/${verifyToken}" style=\"display: inline-block; padding: 10px 20px; background-color: #1f88be; color: white; font-size: 16px; text-decoration: none; border-radius: 5px; margin-top: 30px;\">${
-      text == "forgot" ? "Reset Password" : "Verify Email"
-    }</a>
-        </div>
+
+        ${
+          text == "forgot"
+            ? `<div style=\"text-align: center;\">
+              <a href="http://18.170.102.108/${type}/resetpassword/${verifyToken}" 
+              style=\"display: inline-block; padding: 10px 20px; background-color: #1f88be; color: white; font-size: 16px; text-decoration: none; border-radius: 5px; margin-top: 30px;\">
+              Reset Password
+              </a>
+              </div>`
+            : `<div style=\"text-align: center;\">
+              <a href="http://13.42.57.230/api/${type}/verify/${verifyToken}" style=\"display: inline-block; padding: 10px 20px; background-color: #1f88be; color: white; font-size: 16px; text-decoration: none; border-radius: 5px; margin-top: 30px;\">
+                Verify Email
+              }</a>
+              </div>`
+        }
+
+
+
       </div>
       <div style=\"background-color: #1f88be; color: white; text-align: center; padding: 10px; font-size: 14px;\">
         <p style=\"margin: 0;\">If you did not sign up for this service, please disregard this email.</p>

@@ -13,6 +13,7 @@ const bcrypt = require("bcryptjs");
 const stripe = require("stripe")(
   "sk_test_51NX1sqIczjEzgJwauX7bzE4SLUuvNoZIpFMvvH0n2Rl0pBBR0YYCyUIlMWmKAjUh8kidVseIccFViCLCdfnhiBfN00tv2JqTsN"
 );
+const saltRounds = 10;
 
 ProfessionalRoute.route("/add-professional").post(
   upload.fields([
@@ -439,6 +440,68 @@ ProfessionalRoute.route("/verify/:token").get(async function (req, res) {
       title: "Expired",
       status: "Link Expired..",
       icon: "c",
+    });
+  }
+});
+ProfessionalRoute.route("/forgetPassword").post(function (req, res) {
+  const { email } = req.body;
+  Professional.findOne({ email })
+    .exec()
+    .then(async (found) => {
+      if (found) {
+        await sendEmail(
+          found.email,
+          "Password Reset Link",
+          "forgot",
+          found._id,
+          "professional"
+        );
+
+        res.status(200).json({
+          message: "Your password reset link has been sent to your mail",
+        });
+      } else {
+        return res.status(404).json({
+          message: "Sorry ! User not found",
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+ProfessionalRoute.route("/updatePassword/:id").put(async function (req, res) {
+  const { newPassword } = req.body;
+  let user = await Professional.findOne({ _id: req.params.id });
+  try {
+    if (!user) {
+      res.status(404).json({
+        message: "Sorry ! User not found",
+      });
+    }
+    bcrypt.hash(newPassword, saltRounds, async (err, hash) => {
+      if (err) {
+        return res.status(500).json({
+          message: "password decryption error",
+        });
+      } else {
+        let updatedUser = await Professional.findOneAndUpdate(
+          { _id: req.params.id },
+          { password: hash },
+          { useFindAndModify: false, new: true }
+        );
+        if (updatedUser) {
+          res.status(201).json({
+            message: "Password has been changed successfully",
+          });
+        }
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal Server Error",
     });
   }
 });

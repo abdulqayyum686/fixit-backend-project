@@ -9,6 +9,7 @@ const sendEmail = require("../utils/sendEmail");
 const upload = require("../utils/uploadImages");
 const bcrypt = require("bcryptjs");
 const jwt_decode = require("jwt-decode");
+const saltRounds = 10;
 
 UserRoute.route("/add-client").post(
   upload.single("profile"),
@@ -234,5 +235,67 @@ UserRoute.route("/update/:id").put(
     );
   }
 );
+UserRoute.route("/forgetPassword").post(function (req, res) {
+  const { email } = req.body;
+  Client.findOne({ email })
+    .exec()
+    .then(async (found) => {
+      if (found) {
+        await sendEmail(
+          found.email,
+          "Password Reset Link",
+          "forgot",
+          found._id,
+          "client"
+        );
 
+        res.status(200).json({
+          message: "Your password reset link has been sent to your mail",
+        });
+      } else {
+        return res.status(404).json({
+          message: "Sorry ! User not Found",
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+UserRoute.route("/updatePassword/:id").put(async function (req, res) {
+  const { newPassword } = req.body;
+  console.log("updatePassword", newPassword, req.params.id);
+  let user = await Client.findOne({ _id: req.params.id });
+  try {
+    if (!user) {
+      res.status(404).json({
+        message: "Sorry ! User not found",
+      });
+    }
+    bcrypt.hash(newPassword, saltRounds, async (err, hash) => {
+      if (err) {
+        return res.status(500).json({
+          message: "password decryption error",
+        });
+      } else {
+        let updatedUser = await Client.findOneAndUpdate(
+          { _id: req.params.id },
+          { password: hash },
+          { useFindAndModify: false, new: true }
+        );
+        if (updatedUser) {
+          res.status(201).json({
+            message: "Password has been changed successfully",
+          });
+        }
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
+  }
+});
 module.exports = UserRoute;
