@@ -45,7 +45,13 @@ UserRoute.route("/add-client").post(
                 expiresIn: "5d",
               }
             );
-            sendEmail(User?.email, "Email Confirmation", "normal", token);
+            sendEmail(
+              User?.email,
+              "Email Confirmation",
+              "normal",
+              token,
+              "client"
+            );
             res.status(200).json({
               User: "client added successfully",
               token: token,

@@ -15,7 +15,7 @@ var transporter = nodemailer.createTransport({
   },
 });
 
-function sendEmail(to, subject, text, verifyToken) {
+function sendEmail(to, subject, text, verifyToken, type) {
   console.log(to, subject, text, verifyToken, "afzal");
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -45,9 +45,9 @@ function sendEmail(to, subject, text, verifyToken) {
             : "Please verify your email address to complete your registration:"
         }</p>
         <div style=\"text-align: center;\">
-          <a href="http://13.42.57.230/api/client/${
-            text == "forgot" ? "forgotform" : "verify"
-          }/${verifyToken}" style=\"display: inline-block; padding: 10px 20px; background-color: #1f88be; color: white; font-size: 16px; text-decoration: none; border-radius: 5px; margin-top: 30px;\">${
+          <a href="http://13.42.57.230/api/${type}/${
+      text == "forgot" ? "forgotform" : "verify"
+    }/${verifyToken}" style=\"display: inline-block; padding: 10px 20px; background-color: #1f88be; color: white; font-size: 16px; text-decoration: none; border-radius: 5px; margin-top: 30px;\">${
       text == "forgot" ? "Reset Password" : "Verify Email"
     }</a>
         </div>

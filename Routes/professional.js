@@ -73,7 +73,13 @@ ProfessionalRoute.route("/add-professional").post(
                 expiresIn: "5d",
               }
             );
-            sendEmail(User?.email, "Email Confirmation", "normal", token);
+            sendEmail(
+              User?.email,
+              "Email Confirmation",
+              "normal",
+              token,
+              "professional"
+            );
             // stripe payment gateway
             if (type === "premium") {
               const customer = await stripe.customers.create({
@@ -393,6 +399,47 @@ ProfessionalRoute.route("/enhanced-subscription/:id").put(async function (
   res.status(200).json({
     url: session.url,
   });
+});
+ProfessionalRoute.route("/verify/:token").get(async function (req, res) {
+  // console.log("req.boyy===", req.body, req.params);
+  try {
+    if (!req.params.token)
+      return res.status(400).send({ message: "Token is missing." });
+    let tok = jwt_decode(req.params.token);
+
+    // console.log("new login", tok);
+    let user = await Professional.findOne({ _id: tok._id });
+
+    if (!user) return res.status(400).send("Link Expired..");
+    if (user.isApproved === true) {
+      console.log("enter in else if");
+      return res.render("emailconfirm", {
+        title: "Verified.",
+        status: "Email Is Already Verified..",
+        icon: "t",
+      });
+    } else {
+      await Professional.findOneAndUpdate(
+        { _id: tok._id },
+        {
+          isApproved: true,
+        },
+        { new: true }
+      );
+    }
+    return res.render("emailconfirm", {
+      title: "Verified.",
+      status: "Email Verified..",
+      icon: "t",
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.render("emailconfirm", {
+      title: "Expired",
+      status: "Link Expired..",
+      icon: "c",
+    });
+  }
 });
 
 module.exports = ProfessionalRoute;
