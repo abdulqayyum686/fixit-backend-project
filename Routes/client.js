@@ -169,7 +169,6 @@ UserRoute.route("/verify/:token").get(async function (req, res) {
         },
         { new: true }
       );
-      console.log("enter in else", updae);
     }
     return res.render("emailconfirm", {
       title: "Verified.",
