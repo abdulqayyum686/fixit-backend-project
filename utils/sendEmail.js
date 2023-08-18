@@ -5,16 +5,24 @@ const nodemailer = require("nodemailer");
 function sendEmail(to, subject, text, verifyToken, type) {
   console.log(to, subject, text, verifyToken, "afzal");
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    // host: "smtp.gmail.com",
+    // port: 465,
+    // secure: true,
+    // auth: {
+    //   user: "qayyuma686@gmail.com",
+    //   pass: "ziyfvpktqpmamnru",
+    // },
+    host: "smtp-relay.sendinblue.com",
+    port: 587,
+    secure: false,
     auth: {
-      user: "qayyuma686@gmail.com",
-      pass: "ziyfvpktqpmamnru",
+      user: "sp17bsed@gmail.com",
+      pass: "9wISqdmrY0MLCFJT",
     },
   });
   const message = {
-    from: "qayyuma686@gmail.com",
+    // from: "qayyuma686@gmail.com",
+    from: "Customer@flixit.co.Uk", // sender address
     to: to,
     subject: subject,
     html: `<html><div style=\"font-family: Arial, sans-serif; color: #333333; background-color: #f5f5f5; padding: 30px;\">
