@@ -37,8 +37,6 @@ function sendMessageEmail(from, to, url) {
         
        </p>
        <a href=${url} style=\"padding: 10px; color: black; background:#ffd773 ;\">Link Button</a>
-        
-     
     </div>
   </div></html>`,
   };
