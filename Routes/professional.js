@@ -172,7 +172,10 @@ ProfessionalRoute.route("/stripe-payment-webhook").post(async function (
 ProfessionalRoute.route("/professional-auth").post(function (req, res) {
   console.log(req.body);
   const { email, password } = req.body;
-  Professional.findOne({ email: email, isApproved: true })
+  Professional.findOne({
+    email: { $regex: email, $options: "i" },
+    isApproved: true,
+  })
     .exec()
     .then(async (foundObject) => {
       if (foundObject) {
@@ -327,7 +330,7 @@ ProfessionalRoute.route("/update/:id").put(
   async function (req, res) {
     let uq = null;
     let ub = null;
-    let iu = null;
+    let iu = [];
 
     if (req?.files?.uq) {
       uq = "img/" + req.files.uq[0].filename;
@@ -342,6 +345,10 @@ ProfessionalRoute.route("/update/:id").put(
       }
       iu = array;
     }
+    if (req.body.iu) {
+      iu = [...iu, ...JSON.parse(req.body.iu)];
+    }
+
     if (req?.body?.password) {
       let newPassword = await bcrypt.hash(req.body.password, 10);
       console.log("newPassword", newPassword);
@@ -357,7 +364,7 @@ ProfessionalRoute.route("/update/:id").put(
         req.body.subscription = null;
       }
     }
-
+    console.log("console===", iu);
     Professional.findOneAndUpdate(
       { _id: req.params.id },
       {
@@ -367,7 +374,8 @@ ProfessionalRoute.route("/update/:id").put(
         prices: JSON.parse(req.body.prices),
         uq: uq ? uq : req.body.uq,
         ub: ub ? ub : req.body.ub,
-        iu: iu ? iu : JSON.parse(req.body.iu),
+        // iu: iu ? iu : JSON.parse(req.body.iu),
+        iu: iu,
       },
       { new: true },
 

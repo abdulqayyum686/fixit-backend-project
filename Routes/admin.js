@@ -34,7 +34,7 @@ adminRoute.route("/admin-signup").post(async function (req, res) {
 adminRoute.route("/admin-auth").post(function (req, res) {
   console.log(req.body, "client");
   const { email, password } = req.body;
-  Admin.findOne({ email: email })
+  Admin.findOne({ email: { $regex: email, $options: "i" } })
     .exec()
     .then(async (foundObject) => {
       if (foundObject) {

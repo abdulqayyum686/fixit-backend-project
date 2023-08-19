@@ -70,7 +70,7 @@ UserRoute.route("/add-client").post(
 UserRoute.route("/client-auth").post(function (req, res) {
   console.log(req.body, "client");
   const { email, password } = req.body;
-  Client.findOne({ email: email, isApproved: true })
+  Client.findOne({ email: { $regex: email, $options: "i" }, isApproved: true })
     .exec()
     .then(async (foundObject) => {
       if (foundObject) {
