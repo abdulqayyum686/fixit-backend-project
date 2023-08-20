@@ -30,8 +30,8 @@ ChatRoute.route("/send-message").post(
       .then(async (chat) => {
         let url =
           JSON.parse(req.body.reciever).accountType === "professional"
-            ? "http://18.170.102.108/professional-chat"
-            : "http://18.170.102.108/client-chat";
+            ? "http://18.170.102.108/professional-chat?type=professional"
+            : "http://18.170.102.108/client-chat?type=client";
         sendMessageEmail(
           JSON.parse(req.body.sender),
           JSON.parse(req.body.reciever),
