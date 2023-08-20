@@ -33,10 +33,9 @@ function sendMessageEmail(from, to, url) {
     <div style=\"max-width: 600px; margin: 0 auto; background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);\">
       <div style=\"padding: 30px;\">
         <p style=\"text-align: center; font-size: 16px;\">
-        You Got New Message from  ${from.name} please check your chat section 
-        
+        You got a new message from ${from.name} please check your chat section 
        </p>
-       <a href=${url} style=\"padding: 10px; color: black; background:#ffd773 ;\">Link Button</a>
+       <a href=${url} style=\"padding: 10px; color: black; background:#ffd773 ;\">Reply</a>
     </div>
   </div></html>`,
   };

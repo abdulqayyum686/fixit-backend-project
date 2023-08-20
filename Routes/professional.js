@@ -397,8 +397,19 @@ ProfessionalRoute.route("/enhanced-subscription/:id").put(async function (
   req,
   res
 ) {
-  const { cus_Id } = req.body;
+  let { cus_Id, user_Id } = req.body;
   console.log("cus_Id", cus_Id);
+
+  if (!cus_Id) {
+    const customer = await stripe.customers.create({
+      description:
+        "My First Test Customer (created for API docs at https://www.stripe.com/docs/api)",
+      metadata: { professional_id: user_Id.toString() },
+    });
+    console.log("strie customer====", customer.id);
+    cus_Id = customer.id;
+  }
+
   const session = await stripe.checkout.sessions.create({
     line_items: [{ price: "price_1NdfXOIczjEzgJwaP1szukZm", quantity: 1 }],
     mode: "subscription",
