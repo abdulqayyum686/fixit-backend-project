@@ -67,6 +67,9 @@ let professionalScheema = new Schema({
   privacy: {
     type: String,
   },
+  markiting: {
+    type: String,
+  },
   cus_Id: {
     type: String,
   },

@@ -41,6 +41,9 @@ let clientScheema = new Schema({
   accountType: {
     type: String,
   },
+  markiting: {
+    type: String,
+  },
   isApproved: {
     type: Boolean,
     default: false,
