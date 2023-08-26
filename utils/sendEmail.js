@@ -47,7 +47,7 @@ function sendEmail(to, subject, text, verifyToken, type) {
               </a>
               </div>`
             : `<div style=\"text-align: center;\">
-              <a href="http://13.42.57.230/api/${type}/verify/${verifyToken}" style=\"display: inline-block; padding: 10px 20px; background-color: #1f88be; color: white; font-size: 16px; text-decoration: none; border-radius: 5px; margin-top: 30px;\">
+              <a href="http://backend.flixit.co.uk/api/${type}/verify/${verifyToken}" style=\"display: inline-block; padding: 10px 20px; background-color: #1f88be; color: white; font-size: 16px; text-decoration: none; border-radius: 5px; margin-top: 30px;\">
                 Verify Email
               </a>
               </div>`
