@@ -11,7 +11,8 @@ const jwt_decode = require("jwt-decode");
 const upload = require("../utils/uploadImages");
 const bcrypt = require("bcryptjs");
 const stripe = require("stripe")(
-  "sk_test_51NX1sqIczjEzgJwauX7bzE4SLUuvNoZIpFMvvH0n2Rl0pBBR0YYCyUIlMWmKAjUh8kidVseIccFViCLCdfnhiBfN00tv2JqTsN"
+  // "sk_test_51NX1sqIczjEzgJwauX7bzE4SLUuvNoZIpFMvvH0n2Rl0pBBR0YYCyUIlMWmKAjUh8kidVseIccFViCLCdfnhiBfN00tv2JqTsN"
+  "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"
 );
 const saltRounds = 10;
 
