@@ -98,8 +98,8 @@ ProfessionalRoute.route("/add-professional").post(
                 ],
                 mode: "subscription",
                 customer: customer.id,
-                success_url: `http://18.170.102.108/`,
-                cancel_url: `http://18.170.102.108/`,
+                success_url: `http://www.flixit.co.uk/`,
+                cancel_url: `http://www.flixit.co.uk/`,
               });
               res.status(200).json({
                 url: session.url,
@@ -415,8 +415,8 @@ ProfessionalRoute.route("/enhanced-subscription/:id").put(async function (
     line_items: [{ price: "price_1NdfXOIczjEzgJwaP1szukZm", quantity: 1 }],
     mode: "subscription",
     customer: cus_Id,
-    success_url: `http://18.170.102.108/`,
-    cancel_url: `http://18.170.102.108/`,
+    success_url: `http://www.flixit.co.uk/`,
+    cancel_url: `http://www.flixit.co.uk/`,
   });
   res.status(200).json({
     url: session.url,
