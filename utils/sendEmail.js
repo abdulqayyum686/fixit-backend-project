@@ -41,7 +41,7 @@ function sendEmail(to, subject, text, verifyToken, type) {
         ${
           text == "forgot"
             ? `<div style=\"text-align: center;\">
-              <a href="http://18.170.102.108/${type}/resetpassword/${verifyToken}" 
+              <a href="https://www.flixit.co.uk/${type}/resetpassword/${verifyToken}" 
               style=\"display: inline-block; padding: 10px 20px; background-color: #1f88be; color: white; font-size: 16px; text-decoration: none; border-radius: 5px; margin-top: 30px;\">
               Reset Password
               </a>
