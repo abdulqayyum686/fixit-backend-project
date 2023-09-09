@@ -102,27 +102,29 @@ UserRoute.route("/find").post(async function (req, res) {
   }
 });
 UserRoute.route("/getallusers").get(function (req, res) {
-  Professional.find({}, function (err, users) {
-    if (err) {
-      res.send("sad");
-    } else {
-      if (!users) {
-        res.send(err);
+  Professional.find()
+    .populate("reviews.reviewerID")
+    .exec({}, function (err, users) {
+      if (err) {
+        res.send("sad");
       } else {
-        const sortedUsers = users.sort((a, b) => {
-          if (a.accountPaymentStatus === b.accountPaymentStatus) {
-            return 0;
-          } else if (a.accountPaymentStatus) {
-            return -1;
-          } else {
-            return 1;
-          }
-        });
+        if (!users) {
+          res.send(err);
+        } else {
+          const sortedUsers = users.sort((a, b) => {
+            if (a.accountPaymentStatus === b.accountPaymentStatus) {
+              return 0;
+            } else if (a.accountPaymentStatus) {
+              return -1;
+            } else {
+              return 1;
+            }
+          });
 
-        res.status(200).json({ users: sortedUsers });
+          res.status(200).json({ users: sortedUsers });
+        }
       }
-    }
-  });
+    });
 });
 UserRoute.route("/auth").post(function (req, res) {
   User.findOne(
